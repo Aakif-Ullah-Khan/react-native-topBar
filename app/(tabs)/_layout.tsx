@@ -1,34 +1,48 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { withLayoutContext } from "expo-router";
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+const { Navigator } = createMaterialTopTabNavigator();
+export const Tabs = withLayoutContext(Navigator);
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+export default function Layout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
+        tabBarStyle: {
+          backgroundColor: "#fff",
+          elevation: 0,       // Android shadow
+          shadowOpacity: 0,   // iOS shadow
+          borderBottomWidth: 0.5,
+          borderBottomColor: "#e5e5e5",
+        },
+
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: "500",
+          textTransform: "none",
+        },
+
+        tabBarActiveTintColor: "#000",
+        tabBarInactiveTintColor: "#777",
+
+        tabBarIndicatorStyle: {
+          backgroundColor: "#000",
+          height: 1,
+          borderRadius: 1,
+        },
+
+        tabBarItemStyle: {
+          paddingVertical: 6,
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
+        options={{ title: "For you" }}
       />
       <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
+        name="following"
+        options={{ title: "Following" }}
       />
     </Tabs>
   );
